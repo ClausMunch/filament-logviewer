@@ -15,7 +15,7 @@ class ListLogs extends ListRecords
         return [];
     }
 
-    protected function getTableRecords(): array
+    public function getTableRecords(): array
     {
         $service = new LogFileService();
         return $service->getLogFiles()->toArray();

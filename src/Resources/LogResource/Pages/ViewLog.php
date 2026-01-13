@@ -123,7 +123,7 @@ class ViewLog extends Page implements HasTable
             ->emptyStateDescription('This log file is empty or contains no parseable entries.');
     }
 
-    protected function getTableRecords(): array
+    public function getTableRecords(): array
     {
         $service = new LogFileService();
         $entries = $service->parseLogFile($this->filename);
