@@ -1,7 +1,13 @@
 {
   "name": "munch/filament-logviewer",
   "description": "A beautiful Filament plugin to view, filter, and manage Laravel log files",
-  "keywords": ["laravel", "filament", "logs", "logviewer", "admin"],
+  "keywords": [
+    "laravel",
+    "filament",
+    "logs",
+    "logviewer",
+    "admin"
+  ],
   "type": "library",
   "license": "MIT",
   "authors": [
