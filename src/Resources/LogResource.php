@@ -44,7 +44,7 @@ class LogResource extends Resource
         return $table
             ->query(
                 // Use a fake query builder since we're working with files
-                \Illuminate\Database\Eloquent\Builder::getQuery()
+                \Illuminate\Database\Eloquent\Builder::getQuery(),
             )
             ->paginated(false)
             ->columns([
@@ -57,7 +57,7 @@ class LogResource extends Resource
 
                 Tables\Columns\TextColumn::make('size')
                     ->label('Size')
-                    ->formatStateUsing(fn ($state) => LogFileService::formatFileSize($state))
+                    ->formatStateUsing(fn($state) => LogFileService::formatFileSize($state))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('modified')
@@ -70,7 +70,7 @@ class LogResource extends Resource
                     ->label('View')
                     ->icon('heroicon-m-eye')
                     ->color('primary')
-                    ->url(fn ($record) => static::getUrl('view', ['filename' => $record['name']])),
+                    ->url(fn($record) => static::getUrl('view', ['filename' => $record['name']])),
 
                 Tables\Actions\Action::make('empty')
                     ->label('Empty')
@@ -78,15 +78,17 @@ class LogResource extends Resource
                     ->color('warning')
                     ->requiresConfirmation()
                     ->modalHeading('Empty Log File')
-                    ->modalDescription('Are you sure you want to empty this log file? The file will remain but all content will be cleared.')
+                    ->modalDescription(
+                        'Are you sure you want to empty this log file? The file will remain but all content will be cleared.',
+                    )
                     ->action(function ($record) use ($service) {
                         $service->emptyLogFile($record['name']);
                     })
                     ->successNotification(
-                        fn () => \Filament\Notifications\Notification::make()
+                        fn() => \Filament\Notifications\Notification::make()
                             ->success()
                             ->title('Log file emptied')
-                            ->body('The log file has been successfully emptied.')
+                            ->body('The log file has been successfully emptied.'),
                     ),
 
                 Tables\Actions\Action::make('delete')
@@ -100,10 +102,10 @@ class LogResource extends Resource
                         $service->deleteLogFile($record['name']);
                     })
                     ->successNotification(
-                        fn () => \Filament\Notifications\Notification::make()
+                        fn() => \Filament\Notifications\Notification::make()
                             ->success()
                             ->title('Log file deleted')
-                            ->body('The log file has been successfully deleted.')
+                            ->body('The log file has been successfully deleted.'),
                     ),
             ])
             ->bulkActions([
@@ -113,7 +115,9 @@ class LogResource extends Resource
                     ->color('danger')
                     ->requiresConfirmation()
                     ->modalHeading('Delete Log Files')
-                    ->modalDescription('Are you sure you want to delete the selected log files? This action cannot be undone.')
+                    ->modalDescription(
+                        'Are you sure you want to delete the selected log files? This action cannot be undone.',
+                    )
                     ->action(function ($records) use ($service) {
                         foreach ($records as $record) {
                             $service->deleteLogFile($record['name']);
@@ -121,10 +125,10 @@ class LogResource extends Resource
                     })
                     ->deselectRecordsAfterCompletion()
                     ->successNotification(
-                        fn () => \Filament\Notifications\Notification::make()
+                        fn() => \Filament\Notifications\Notification::make()
                             ->success()
                             ->title('Log files deleted')
-                            ->body('The selected log files have been successfully deleted.')
+                            ->body('The selected log files have been successfully deleted.'),
                     ),
             ])
             ->emptyStateHeading('No log files found')

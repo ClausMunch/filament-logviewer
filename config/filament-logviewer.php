@@ -2,45 +2,45 @@
 
 return [
     /*
-    |--------------------------------------------------------------------------
-    | Log Directory Path
-    |--------------------------------------------------------------------------
-    |
-    | The path where your Laravel application stores log files.
-    | By default, this points to storage/logs.
-    |
-    */
+     |--------------------------------------------------------------------------
+     | Log Directory Path
+     |--------------------------------------------------------------------------
+     |
+     | The path where your Laravel application stores log files.
+     | By default, this points to storage/logs.
+     |
+     */
     'path' => storage_path('logs'),
 
     /*
-    |--------------------------------------------------------------------------
-    | Maximum File Size
-    |--------------------------------------------------------------------------
-    |
-    | Maximum file size (in bytes) to read. Files larger than this will
-    | display a warning and may be truncated to prevent memory issues.
-    |
-    */
+     |--------------------------------------------------------------------------
+     | Maximum File Size
+     |--------------------------------------------------------------------------
+     |
+     | Maximum file size (in bytes) to read. Files larger than this will
+     | display a warning and may be truncated to prevent memory issues.
+     |
+     */
     'max_file_size' => 10 * 1024 * 1024, // 10MB
 
     /*
-    |--------------------------------------------------------------------------
-    | Entries Per Page
-    |--------------------------------------------------------------------------
-    |
-    | Number of log entries to display per page in the log viewer.
-    |
-    */
+     |--------------------------------------------------------------------------
+     | Entries Per Page
+     |--------------------------------------------------------------------------
+     |
+     | Number of log entries to display per page in the log viewer.
+     |
+     */
     'per_page' => 50,
 
     /*
-    |--------------------------------------------------------------------------
-    | Navigation
-    |--------------------------------------------------------------------------
-    |
-    | Configure how the log viewer appears in the Filament navigation.
-    |
-    */
+     |--------------------------------------------------------------------------
+     | Navigation
+     |--------------------------------------------------------------------------
+     |
+     | Configure how the log viewer appears in the Filament navigation.
+     |
+     */
     'navigation' => [
         'group' => 'Settings',
         'sort' => 100,
@@ -48,23 +48,23 @@ return [
     ],
 
     /*
-    |--------------------------------------------------------------------------
-    | Date Format
-    |--------------------------------------------------------------------------
-    |
-    | The format used to display dates in the log viewer.
-    |
-    */
+     |--------------------------------------------------------------------------
+     | Date Format
+     |--------------------------------------------------------------------------
+     |
+     | The format used to display dates in the log viewer.
+     |
+     */
     'date_format' => 'Y-m-d H:i:s',
 
     /*
-    |--------------------------------------------------------------------------
-    | Log Levels
-    |--------------------------------------------------------------------------
-    |
-    | Define the log levels and their display colors.
-    |
-    */
+     |--------------------------------------------------------------------------
+     | Log Levels
+     |--------------------------------------------------------------------------
+     |
+     | Define the log levels and their display colors.
+     |
+     */
     'levels' => [
         'emergency' => ['label' => 'Emergency', 'color' => 'danger'],
         'alert' => ['label' => 'Alert', 'color' => 'danger'],
