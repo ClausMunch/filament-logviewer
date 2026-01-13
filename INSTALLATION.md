@@ -35,20 +35,22 @@ composer require munch/filament-logviewer
 
 ### 2. Register the Plugin
 
-In your Filament Panel Provider (e.g., `app/Providers/Filament/AdminPanelProvider.php`):
+The plugin auto-registers itself via the service provider. However, if you prefer manual control, you can also register it in your Filament Panel Provider (e.g., `app/Providers/Filament/AdminPanelProvider.php`):
 
 ```php
-use Munch\FilamentLogviewer\FilamentLogviewerPlugin;
+use Munch\FilamentLogviewer\FilamentLogviewerServiceProvider;
 
 public function panel(Panel $panel): Panel
 {
     return $panel
         // ... other configuration
         ->plugins([
-            FilamentLogviewerPlugin::make(),
+            FilamentLogviewerServiceProvider::make(),
         ]);
 }
 ```
+
+**Note:** Manual registration is optional - the plugin registers automatically.
 
 ### 3. Publish Configuration (Optional)
 
