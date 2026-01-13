@@ -62,13 +62,13 @@ class LogResource extends Resource
                     ->sortable(),
             ])
             ->actions([
-                Tables\Actions\Action::make('view')
+                \Filament\Tables\Actions\Action::make('view')
                     ->label('View')
                     ->icon('heroicon-m-eye')
                     ->color('primary')
                     ->url(fn($record) => static::getUrl('view', ['filename' => $record['name']])),
 
-                Tables\Actions\Action::make('empty')
+                \Filament\Tables\Actions\Action::make('empty')
                     ->label('Empty')
                     ->icon('heroicon-m-trash')
                     ->color('warning')
@@ -88,7 +88,7 @@ class LogResource extends Resource
                             ->body('The log file has been successfully emptied.'),
                     ),
 
-                Tables\Actions\Action::make('delete')
+                \Filament\Tables\Actions\Action::make('delete')
                     ->label('Delete')
                     ->icon('heroicon-m-trash')
                     ->color('danger')
@@ -107,7 +107,7 @@ class LogResource extends Resource
                     ),
             ])
             ->bulkActions([
-                Tables\Actions\BulkAction::make('delete')
+                \Filament\Tables\Actions\BulkAction::make('delete')
                     ->label('Delete Selected')
                     ->icon('heroicon-m-trash')
                     ->color('danger')
