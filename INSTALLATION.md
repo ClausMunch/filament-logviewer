@@ -4,7 +4,30 @@
 
 ### 1. Installation
 
-In your Laravel project with Filament installed, require this package:
+#### Option A: Local Development (Package in Development)
+
+Add this to your Laravel project's `composer.json`:
+
+```json
+{
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../filament-logviewer"
+    }
+  ]
+}
+```
+
+Then require the package:
+
+```bash
+composer require munch/filament-logviewer:@dev
+```
+
+#### Option B: From Packagist (After Publishing)
+
+Once published to Packagist:
 
 ```bash
 composer require munch/filament-logviewer
