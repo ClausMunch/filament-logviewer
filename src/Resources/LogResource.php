@@ -5,8 +5,6 @@ namespace Munch\FilamentLogviewer\Resources;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Table;
 use Munch\FilamentLogviewer\Resources\LogResource\Pages;
 use Munch\FilamentLogviewer\Services\LogFileService;
@@ -59,13 +57,13 @@ class LogResource extends Resource
                     ->sortable(),
             ])
             ->actions([
-                Action::make('view')
+                Tables\Actions\Action::make('view')
                     ->label('View')
                     ->icon('heroicon-m-eye')
                     ->color('primary')
                     ->url(fn($record) => static::getUrl('view', ['filename' => $record['name']])),
 
-                Action::make('empty')
+                Tables\Actions\Action::make('empty')
                     ->label('Empty')
                     ->icon('heroicon-m-trash')
                     ->color('warning')
@@ -85,7 +83,7 @@ class LogResource extends Resource
                             ->body('The log file has been successfully emptied.'),
                     ),
 
-                Action::make('delete')
+                Tables\Actions\Action::make('delete')
                     ->label('Delete')
                     ->icon('heroicon-m-trash')
                     ->color('danger')
@@ -104,7 +102,7 @@ class LogResource extends Resource
                     ),
             ])
             ->bulkActions([
-                BulkAction::make('delete')
+                Tables\Actions\BulkAction::make('delete')
                     ->label('Delete Selected')
                     ->icon('heroicon-m-trash')
                     ->color('danger')
