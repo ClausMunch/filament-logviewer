@@ -10,6 +10,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Munch\FilamentLogviewer\Resources\LogResource;
 use Munch\FilamentLogviewer\Services\LogFileService;
@@ -123,7 +124,7 @@ class ViewLog extends Page implements HasTable
             ->emptyStateDescription('This log file is empty or contains no parseable entries.');
     }
 
-    public function getTableRecords(): array
+    public function getTableRecords(): Collection
     {
         $service = new LogFileService();
         $entries = $service->parseLogFile($this->filename);
@@ -162,7 +163,7 @@ class ViewLog extends Page implements HasTable
             });
         }
 
-        return $entries->values()->toArray();
+        return $entries->values();
     }
 
     public function getTitle(): string
