@@ -11,11 +11,15 @@ use Munch\FilamentLogviewer\Services\LogFileService;
 
 class LogResource extends Resource
 {
+    protected static ?string $model = null;
+
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static ?string $modelLabel = 'Log File';
 
     protected static ?string $pluralModelLabel = 'Logs';
+
+    protected static ?string $navigationLabel = 'Logs';
 
     public static function getNavigationGroup(): ?string
     {

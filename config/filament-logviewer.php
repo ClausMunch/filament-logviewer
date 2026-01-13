@@ -42,7 +42,7 @@ return [
     |
     */
     'navigation' => [
-        'group' => 'System',
+        'group' => 'Settings',
         'sort' => 100,
         'icon' => 'heroicon-o-document-text',
     ],
