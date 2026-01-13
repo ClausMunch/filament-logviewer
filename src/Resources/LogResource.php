@@ -62,13 +62,14 @@ class LogResource extends Resource
                     ->sortable(),
             ])
             ->actions([
-                \Filament\Tables\Actions\Action::make('view')
+                \Filament\Actions\Action::make('view')
                     ->label('View')
                     ->icon('heroicon-m-eye')
+                    ->record(fn($record) => $record)
                     ->color('primary')
-                    ->url(fn($record) => static::getUrl('view', ['filename' => $record['name']])),
+                    ->url(fn($record) => static::getUrl('view', ['filename' => base64_encode($record['name'])])),
 
-                \Filament\Tables\Actions\Action::make('empty')
+                \Filament\Actions\Action::make('empty')
                     ->label('Empty')
                     ->icon('heroicon-m-trash')
                     ->color('warning')
@@ -88,7 +89,7 @@ class LogResource extends Resource
                             ->body('The log file has been successfully emptied.'),
                     ),
 
-                \Filament\Tables\Actions\Action::make('delete')
+                \Filament\Actions\Action::make('delete')
                     ->label('Delete')
                     ->icon('heroicon-m-trash')
                     ->color('danger')
@@ -106,30 +107,7 @@ class LogResource extends Resource
                             ->body('The log file has been successfully deleted.'),
                     ),
             ])
-            ->bulkActions([
-                \Filament\Tables\Actions\BulkAction::make('delete')
-                    ->label('Delete Selected')
-                    ->icon('heroicon-m-trash')
-                    ->color('danger')
-                    ->requiresConfirmation()
-                    ->modalHeading('Delete Log Files')
-                    ->modalDescription(
-                        'Are you sure you want to delete the selected log files? This action cannot be undone.',
-                    )
-                    ->action(function ($records) {
-                        $service = new LogFileService();
-                        foreach ($records as $record) {
-                            $service->deleteLogFile($record['name']);
-                        }
-                    })
-                    ->deselectRecordsAfterCompletion()
-                    ->successNotification(
-                        fn() => \Filament\Notifications\Notification::make()
-                            ->success()
-                            ->title('Log files deleted')
-                            ->body('The selected log files have been successfully deleted.'),
-                    ),
-            ])
+            ->bulkActions([])
             ->emptyStateHeading('No log files found')
             ->emptyStateDescription('There are no log files in the storage/logs directory.')
             ->emptyStateIcon('heroicon-o-document-text');

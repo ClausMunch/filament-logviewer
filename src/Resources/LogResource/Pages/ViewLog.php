@@ -29,14 +29,15 @@ class ViewLog extends Page implements HasTable
 
     public function mount(string $filename): void
     {
-        $this->filename = $filename;
+        // Decode base64 encoded filename
+        $this->filename = base64_decode($filename);
 
         $logPath = config('filament-logviewer.path', storage_path('logs'));
-        $filePath = $logPath . '/' . $filename;
+        $filePath = $logPath . '/' . $this->filename;
 
         if (File::exists($filePath)) {
             $this->fileInfo = [
-                'name' => $filename,
+                'name' => $this->filename,
                 'size' => LogFileService::formatFileSize(File::size($filePath)),
                 'modified' => \Carbon\Carbon::createFromTimestamp(File::lastModified($filePath))->format(config(
                     'filament-logviewer.date_format',
@@ -49,6 +50,8 @@ class ViewLog extends Page implements HasTable
     public function table(Table $table): Table
     {
         return $table
+            ->recordAction(null)
+            ->recordUrl(null)
             ->columns([
                 TextColumn::make('timestamp')
                     ->label('Timestamp')
@@ -74,11 +77,21 @@ class ViewLog extends Page implements HasTable
                     ->label('Message')
                     ->searchable()
                     ->limit(100)
-                    ->tooltip(function (TextColumn $column): ?string {
-                        $state = $column->getState();
-                        return strlen($state) > 100 ? $state : null;
-                    })
-                    ->wrap(),
+                    ->wrap()
+                    ->action(
+                        \Filament\Actions\Action::make('viewMessage')
+                            ->modalHeading('Full Log Message')
+                            ->modalWidth('5xl')
+                            ->modalContent(fn ($record) => new \Illuminate\Support\HtmlString(
+                                '<div class="max-w-full">' .
+                                '<div class="text-sm bg-gray-50 dark:bg-gray-900 p-4 rounded font-mono" style="white-space: pre-wrap; word-wrap: break-word; word-break: break-all; overflow-wrap: anywhere; max-width: 100%;">' .
+                                htmlspecialchars($record['message'] . ($record['context'] ? "\n\nContext:\n" . $record['context'] : '')) .
+                                '</div></div>'
+                            ))
+                            ->modalSubmitAction(false)
+                            ->modalCancelActionLabel('Close')
+                            ->record(fn($record) => $record)
+                    ),
             ])
             ->filters([
                 SelectFilter::make('level')
@@ -156,7 +169,21 @@ class ViewLog extends Page implements HasTable
             });
         }
 
-        return $entries->values();
+        return $entries->values()->map(function ($entry, $index) {
+            $entry['key'] = $index;
+            return $entry;
+        });
+    }
+
+    public function getTableRecordKey($record): string
+    {
+        return (string) $record['key'];
+    }
+
+    public function resolveTableRecord($key): ?array
+    {
+        $records = $this->getTableRecords();
+        return $records->firstWhere('key', $key);
     }
 
     public function getTitle(): string
