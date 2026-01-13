@@ -1,6 +1,6 @@
 # Filament Logviewer
 
-A beautiful and powerful Filament plugin to view, filter, and manage Laravel log files directly from your admin panel.
+A simple and powerful Filament plugin to view, filter, and manage Laravel log files directly from your admin panel.
 
 ## Features
 
@@ -14,7 +14,15 @@ A beautiful and powerful Filament plugin to view, filter, and manage Laravel log
 - 🎨 Color-coded log levels for easy identification
 - ⚡ Optimized for large log files
 
+## Requirements
+
+- PHP 8.4+
+- Laravel 12.0+
+- Filament 4.0+
+
 ## Installation
+
+### Option A: From Packagist (Recommended)
 
 Install via composer:
 
@@ -22,33 +30,125 @@ Install via composer:
 composer require munch/filament-logviewer
 ```
 
+### Option B: Local Development
+
+For local development, add this to your Laravel project's `composer.json`:
+
+```json
+{
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../filament-logviewer"
+    }
+  ]
+}
+```
+
+Then require the package:
+
+```bash
+composer require munch/filament-logviewer:@dev
+```
+
+## Usage
+
+Register the plugin in your Filament Panel Provider (e.g., `app/Providers/Filament/AdminPanelProvider.php`):
+
+```php
+use Munch\FilamentLogviewer\FilamentLogviewerPlugin;
+
+class AdminPanelProvider extends PanelProvider
+{
+    public function panel(Panel $panel): Panel
+    {
+        return $panel
+            // ... other configuration
+            ->plugins([
+                FilamentLogviewerPlugin::make(),
+            ]);
+    }
+}
+```
+
+The plugin will automatically register itself and appear in your Filament admin panel navigation under the "Settings" group.
+
+## Configuration
+
 Publish the config file (optional):
 
 ```bash
 php artisan vendor:publish --tag="filament-logviewer-config"
 ```
 
-## Usage
-
-The plugin automatically registers itself with Filament. Simply navigate to the "Logs" section in your admin panel.
-
-## Configuration
-
-You can customize the behavior in `config/filament-logviewer.php`:
+Customize the behavior in `config/filament-logviewer.php`:
 
 ```php
 return [
+    // Path to log files
     'path' => storage_path('logs'),
-    'max_file_size' => 10 * 1024 * 1024, // 10MB
+    
+    // Maximum file size to read (10MB default)
+    'max_file_size' => 10 * 1024 * 1024,
+    
+    // Entries per page
     'per_page' => 50,
+    
+    // Navigation settings
+    'navigation' => [
+        'group' => 'Settings',
+        'sort' => 100,
+        'icon' => 'heroicon-o-document-text',
+    ],
+    
+    // Date format
+    'date_format' => 'Y-m-d H:i:s',
+    
+    // Log level colors
+    'levels' => [
+        'emergency' => ['label' => 'Emergency', 'color' => 'danger'],
+        'alert' => ['label' => 'Alert', 'color' => 'danger'],
+        'critical' => ['label' => 'Critical', 'color' => 'danger'],
+        'error' => ['label' => 'Error', 'color' => 'danger'],
+        'warning' => ['label' => 'Warning', 'color' => 'warning'],
+        'notice' => ['label' => 'Notice', 'color' => 'info'],
+        'info' => ['label' => 'Info', 'color' => 'success'],
+        'debug' => ['label' => 'Debug', 'color' => 'gray'],
+    ],
 ];
 ```
 
-## Requirements
+## Features Detail
 
-- PHP 8.2+
-- Laravel 12.0+
-- Filament 4.0+
+### Log File Management
+
+- **View All Logs**: Browse all log files in `storage/logs` with file size and last modified date
+- **Delete Logs**: Remove individual or multiple log files
+- **Empty Logs**: Clear log file contents without deleting the file
+
+### Log Viewing & Filtering
+
+- **Detailed View**: Click "View" on any log file to see parsed entries
+- **Filter by Level**: Filter logs by severity (emergency, alert, critical, error, warning, notice, info, debug)
+- **Date Range Filter**: Filter logs by timestamp range
+- **Search**: Global search across log messages and context
+- **Auto-refresh**: Log viewer automatically refreshes every 30 seconds
+
+### Log Entry Display
+
+Each log entry shows:
+- Timestamp
+- Log level (color-coded badge)
+- Environment
+- Message
+- Context and stack traces (expandable)
+
+## Performance
+
+- Large files (>10MB) are automatically handled with optimized reading
+- Only the most recent entries are loaded for very large files
+- Pagination prevents memory issues
+- Configurable per-page limits
 
 ## License
 
