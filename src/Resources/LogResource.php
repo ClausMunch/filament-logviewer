@@ -5,6 +5,8 @@ namespace Munch\FilamentLogviewer\Resources;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Table;
 use Munch\FilamentLogviewer\Resources\LogResource\Pages;
 use Munch\FilamentLogviewer\Services\LogFileService;
@@ -57,13 +59,13 @@ class LogResource extends Resource
                     ->sortable(),
             ])
             ->actions([
-                Tables\Actions\Action::make('view')
+                Action::make('view')
                     ->label('View')
                     ->icon('heroicon-m-eye')
                     ->color('primary')
                     ->url(fn($record) => static::getUrl('view', ['filename' => $record['name']])),
 
-                Tables\Actions\Action::make('empty')
+                Action::make('empty')
                     ->label('Empty')
                     ->icon('heroicon-m-trash')
                     ->color('warning')
@@ -72,7 +74,8 @@ class LogResource extends Resource
                     ->modalDescription(
                         'Are you sure you want to empty this log file? The file will remain but all content will be cleared.',
                     )
-                    ->action(function ($record) use ($service) {
+                    ->action(function ($record) {
+                        $service = new LogFileService();
                         $service->emptyLogFile($record['name']);
                     })
                     ->successNotification(
@@ -82,14 +85,15 @@ class LogResource extends Resource
                             ->body('The log file has been successfully emptied.'),
                     ),
 
-                Tables\Actions\Action::make('delete')
+                Action::make('delete')
                     ->label('Delete')
                     ->icon('heroicon-m-trash')
                     ->color('danger')
                     ->requiresConfirmation()
                     ->modalHeading('Delete Log File')
                     ->modalDescription('Are you sure you want to delete this log file? This action cannot be undone.')
-                    ->action(function ($record) use ($service) {
+                    ->action(function ($record) {
+                        $service = new LogFileService();
                         $service->deleteLogFile($record['name']);
                     })
                     ->successNotification(
@@ -100,7 +104,7 @@ class LogResource extends Resource
                     ),
             ])
             ->bulkActions([
-                Tables\Actions\BulkAction::make('delete')
+                BulkAction::make('delete')
                     ->label('Delete Selected')
                     ->icon('heroicon-m-trash')
                     ->color('danger')
@@ -109,7 +113,8 @@ class LogResource extends Resource
                     ->modalDescription(
                         'Are you sure you want to delete the selected log files? This action cannot be undone.',
                     )
-                    ->action(function ($records) use ($service) {
+                    ->action(function ($records) {
+                        $service = new LogFileService();
                         foreach ($records as $record) {
                             $service->deleteLogFile($record['name']);
                         }
