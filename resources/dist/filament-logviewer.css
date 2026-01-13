@@ -1,0 +1,20 @@
+/* Filament Logviewer Custom Styles */
+
+/* Add any custom styles for the log viewer here */
+.filament-logviewer-stacktrace {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    overflow-x: auto;
+}
+
+.dark .filament-logviewer-stacktrace {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.filament-logviewer-message {
+    word-break: break-word;
+}
