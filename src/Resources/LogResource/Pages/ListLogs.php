@@ -5,6 +5,7 @@ namespace Munch\FilamentLogviewer\Resources\LogResource\Pages;
 use Filament\Resources\Pages\ListRecords;
 use Munch\FilamentLogviewer\Resources\LogResource;
 use Munch\FilamentLogviewer\Services\LogFileService;
+use Illuminate\Support\Collection;
 
 class ListLogs extends ListRecords
 {
@@ -15,9 +16,9 @@ class ListLogs extends ListRecords
         return [];
     }
 
-    public function getTableRecords(): array
+    public function getTableRecords(): Collection
     {
         $service = new LogFileService();
-        return $service->getLogFiles()->toArray();
+        return $service->getLogFiles();
     }
 }
