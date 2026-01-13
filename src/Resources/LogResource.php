@@ -36,14 +36,7 @@ class LogResource extends Resource
 
     public static function table(Table $table): Table
     {
-        $service = new LogFileService();
-        $logFiles = $service->getLogFiles();
-
         return $table
-            ->query(
-                // Use a fake query builder since we're working with files
-                \Illuminate\Database\Eloquent\Builder::getQuery(),
-            )
             ->paginated(false)
             ->columns([
                 Tables\Columns\TextColumn::make('name')

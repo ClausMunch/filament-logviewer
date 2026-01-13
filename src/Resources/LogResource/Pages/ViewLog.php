@@ -48,14 +48,7 @@ class ViewLog extends Page implements HasTable
 
     public function table(Table $table): Table
     {
-        $service = new LogFileService();
-        $entries = $service->parseLogFile($this->filename);
-
         return $table
-            ->query(
-                // Fake query - we'll override getTableRecords
-                \Illuminate\Database\Eloquent\Builder::getQuery(),
-            )
             ->columns([
                 TextColumn::make('timestamp')
                     ->label('Timestamp')
