@@ -13,8 +13,6 @@ class LogResource extends Resource
 {
     protected static ?string $model = null;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
-
     protected static ?string $modelLabel = 'Log File';
 
     protected static ?string $pluralModelLabel = 'Logs';
@@ -23,7 +21,7 @@ class LogResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return config('filament-logviewer.navigation.group', 'System');
+        return config('filament-logviewer.navigation.group', 'Settings');
     }
 
     public static function getNavigationSort(): ?int
@@ -31,7 +29,7 @@ class LogResource extends Resource
         return config('filament-logviewer.navigation.sort', 100);
     }
 
-    public static function getNavigationIcon(): ?string
+    public static function getNavigationIcon(): string
     {
         return config('filament-logviewer.navigation.icon', 'heroicon-o-document-text');
     }
