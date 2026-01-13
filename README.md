@@ -46,9 +46,9 @@ return [
 
 ## Requirements
 
-- PHP 8.1+
-- Laravel 10.0+ or 11.0+
-- Filament 3.0+
+- PHP 8.2+
+- Laravel 12.0+
+- Filament 4.0+
 
 ## License
 
