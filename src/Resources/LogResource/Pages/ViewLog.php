@@ -6,9 +6,9 @@ use Filament\Resources\Pages\Page;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Table;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\File;
 use Munch\FilamentLogviewer\Resources\LogResource;
@@ -37,8 +37,10 @@ class ViewLog extends Page implements HasTable
             $this->fileInfo = [
                 'name' => $filename,
                 'size' => LogFileService::formatFileSize(File::size($filePath)),
-                'modified' => \Carbon\Carbon::createFromTimestamp(File::lastModified($filePath))
-                    ->format(config('filament-logviewer.date_format', 'Y-m-d H:i:s')),
+                'modified' => \Carbon\Carbon::createFromTimestamp(File::lastModified($filePath))->format(config(
+                    'filament-logviewer.date_format',
+                    'Y-m-d H:i:s',
+                )),
             ];
         }
     }
@@ -51,7 +53,7 @@ class ViewLog extends Page implements HasTable
         return $table
             ->query(
                 // Fake query - we'll override getTableRecords
-                \Illuminate\Database\Eloquent\Builder::getQuery()
+                \Illuminate\Database\Eloquent\Builder::getQuery(),
             )
             ->columns([
                 TextColumn::make('timestamp')
@@ -63,8 +65,8 @@ class ViewLog extends Page implements HasTable
                 TextColumn::make('level')
                     ->label('Level')
                     ->badge()
-                    ->color(fn (string $state): string => LogFileService::getLevelColor($state))
-                    ->formatStateUsing(fn (string $state): string => LogFileService::getLevelLabel($state))
+                    ->color(fn(string $state): string => LogFileService::getLevelColor($state))
+                    ->formatStateUsing(fn(string $state): string => LogFileService::getLevelLabel($state))
                     ->sortable(),
 
                 TextColumn::make('environment')
@@ -104,10 +106,8 @@ class ViewLog extends Page implements HasTable
 
                 Filter::make('created_at')
                     ->form([
-                        \Filament\Forms\Components\DateTimePicker::make('from')
-                            ->label('From'),
-                        \Filament\Forms\Components\DateTimePicker::make('until')
-                            ->label('Until'),
+                        \Filament\Forms\Components\DateTimePicker::make('from')->label('From'),
+                        \Filament\Forms\Components\DateTimePicker::make('until')->label('Until'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         // This is handled in getTableRecords
@@ -130,21 +130,21 @@ class ViewLog extends Page implements HasTable
 
         // Apply filters
         $filters = $this->getTableFilters();
-        
-        if (! empty($filters['level']['value'])) {
+
+        if (!empty($filters['level']['value'])) {
             $entries = $entries->filter(function ($entry) use ($filters) {
                 return $entry['level'] === $filters['level']['value'];
             });
         }
 
-        if (! empty($filters['created_at']['from'])) {
+        if (!empty($filters['created_at']['from'])) {
             $from = \Carbon\Carbon::parse($filters['created_at']['from']);
             $entries = $entries->filter(function ($entry) use ($from) {
                 return $entry['timestamp']->gte($from);
             });
         }
 
-        if (! empty($filters['created_at']['until'])) {
+        if (!empty($filters['created_at']['until'])) {
             $until = \Carbon\Carbon::parse($filters['created_at']['until']);
             $entries = $entries->filter(function ($entry) use ($until) {
                 return $entry['timestamp']->lte($until);
@@ -155,8 +155,10 @@ class ViewLog extends Page implements HasTable
         $search = $this->getTableSearch();
         if ($search) {
             $entries = $entries->filter(function ($entry) use ($search) {
-                return str_contains(strtolower($entry['message']), strtolower($search)) ||
-                       str_contains(strtolower($entry['context']), strtolower($search));
+                return (
+                    str_contains(strtolower($entry['message']), strtolower($search))
+                    || str_contains(strtolower($entry['context']), strtolower($search))
+                );
             });
         }
 
