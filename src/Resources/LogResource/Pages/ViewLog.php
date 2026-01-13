@@ -20,7 +20,7 @@ class ViewLog extends Page implements HasTable
 
     protected static string $resource = LogResource::class;
 
-    protected static string $view = 'filament-logviewer::pages.view-log';
+    protected string $view = 'filament-logviewer::pages.view-log';
 
     public string $filename;
 
