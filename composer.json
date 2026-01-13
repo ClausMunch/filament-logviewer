@@ -1,57 +1,17 @@
 {
     "name": "munch/filament-logviewer",
-    "description": "A beautiful Filament plugin to view, filter, and manage Laravel log files",
-    "keywords": ["laravel", "filament", "logs", "logviewer", "admin"],
-    "type": "library",
+    "description": "A simple Log Viewer for Filament PHP",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Munch",
-            "email": "dev@example.com"
-        }
-    ],
-    "require": {
-        "php": "^8.1",
-        "filament/filament": "^3.0",
-        "illuminate/contracts": "^10.0|^11.0",
-        "spatie/laravel-package-tools": "^1.14.0"
-    },
-    "require-dev": {
-        "laravel/pint": "^1.0",
-        "nunomaduro/collision": "^7.8|^8.0",
-        "orchestra/testbench": "^8.0|^9.0",
-        "pestphp/pest": "^2.20",
-        "pestphp/pest-plugin-arch": "^2.0",
-        "pestphp/pest-plugin-laravel": "^2.0"
-    },
     "autoload": {
         "psr-4": {
             "Munch\\FilamentLogviewer\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Munch\\FilamentLogviewer\\Tests\\": "tests/"
+    "authors": [
+        {
+            "name": "Claus",
+            "email": "claus@codepoint.dk"
         }
-    },
-    "scripts": {
-        "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest --coverage",
-        "format": "vendor/bin/pint"
-    },
-    "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "pestphp/pest-plugin": true
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Munch\\FilamentLogviewer\\FilamentLogviewerServiceProvider"
-            ]
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    ],
+    "require": {}
 }
