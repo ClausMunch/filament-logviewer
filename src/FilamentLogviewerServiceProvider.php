@@ -13,10 +13,7 @@ class FilamentLogviewerServiceProvider extends PackageServiceProvider
 
     public function configurePackage(Package $package): void
     {
-        $package
-            ->name(static::$name)
-            ->hasConfigFile()
-            ->hasViews();
+        $package->name(static::$name)->hasConfigFile()->hasViews();
     }
 
     public function packageBooted(): void
