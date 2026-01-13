@@ -1,17 +1,17 @@
 {
-    "name": "munch/filament-logviewer",
-    "description": "A simple Log Viewer for Filament PHP",
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Munch\\FilamentLogviewer\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Claus",
-            "email": "claus@codepoint.dk"
-        }
-    ],
-    "require": {}
+  "name": "munch/filament-logviewer",
+  "description": "A simple Log Viewer for Filament PHP",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Munch\\FilamentLogviewer\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Claus",
+      "email": "claus@codepoint.dk"
+    }
+  ],
+  "require": {}
 }
