@@ -19,6 +19,11 @@ class LogResource extends Resource
 
     protected static ?string $navigationLabel = 'Logs';
 
+    public static function getModel(): string
+    {
+        return static::$model ?? 'Munch\FilamentLogviewer\Models\LogFile';
+    }
+
     public static function getNavigationGroup(): ?string
     {
         return config('filament-logviewer.navigation.group', 'Settings');
